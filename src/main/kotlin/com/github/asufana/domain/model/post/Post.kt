@@ -1,23 +1,15 @@
 package com.github.asufana.domain.model.post
 
+import com.github.asufana.domain.base.BaseEntity
+import com.github.asufana.domain.base.UNSAVED_ID
 import com.github.asufana.domain.base.resolve
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.persistence.Table
-
-/** 未保存Entity時のID値 */
-const val UNSAVED_ID: Long = -1L
 
 /** 投稿 */
 @Entity
 @Table(name="posts")
-class Post private constructor(){
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long = UNSAVED_ID
+class Post private constructor() : BaseEntity() {
 
     lateinit var name: String
 
