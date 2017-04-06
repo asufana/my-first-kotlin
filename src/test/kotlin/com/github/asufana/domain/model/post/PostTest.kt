@@ -1,6 +1,6 @@
 package com.github.asufana.domain.model.post
 
-import com.github.asufana.domain.base.UNSAVED_ID
+import com.github.asufana.domain.base.entity.UNSAVED_ID
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 import org.junit.runner.RunWith

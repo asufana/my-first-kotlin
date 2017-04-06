@@ -1,4 +1,4 @@
-package com.github.asufana.domain.base
+package com.github.asufana.domain.base.entity
 
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType

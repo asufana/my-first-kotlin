@@ -1,4 +1,4 @@
-package com.github.asufana.domain.base
+package com.github.asufana.domain.base.util
 
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware

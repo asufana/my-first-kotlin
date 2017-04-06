@@ -1,6 +1,6 @@
 package com.github.asufana.domain.model.post
 
-import com.github.asufana.domain.base.AbstractRepo
+import com.github.asufana.domain.base.repo.AbstractRepo
 import org.springframework.stereotype.Repository
 
 @Repository
