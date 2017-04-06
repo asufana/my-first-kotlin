@@ -2,6 +2,7 @@ package com.github.asufana.domain.model.post
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
+import com.github.asufana.domain.model.post.repo.PostRepo
 import javax.persistence.Entity
 import javax.persistence.Table
 

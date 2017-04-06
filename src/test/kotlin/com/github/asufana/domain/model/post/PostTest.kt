@@ -1,15 +1,11 @@
 package com.github.asufana.domain.model.post
 
+import com.github.asufana.domain.base.AbstractTest
 import com.github.asufana.domain.base.entity.UNSAVED_ID
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
 
-@RunWith(SpringRunner::class)
-@SpringBootTest
-class PostTest {
+class PostTest : AbstractTest() {
 
     companion object {
         //インスタンス生成
