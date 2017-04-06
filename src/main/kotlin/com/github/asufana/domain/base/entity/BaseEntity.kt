@@ -13,7 +13,7 @@ abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long = UNSAVED_ID
+    protected val id: Long = UNSAVED_ID
 
 
     fun isSaved(): Boolean {

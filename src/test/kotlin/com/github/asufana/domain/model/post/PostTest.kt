@@ -1,7 +1,9 @@
 package com.github.asufana.domain.model.post
 
+import com.github.asufana.domain.T
 import com.github.asufana.domain.base.AbstractTest
 import com.github.asufana.domain.base.entity.UNSAVED_ID
+import com.github.asufana.domain.model.post.vo.PostName
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 
@@ -9,7 +11,7 @@ class PostTest : AbstractTest() {
 
     companion object {
         //インスタンス生成
-        fun create(): Post = Post("My first post.")
+        fun create(): Post = Post(T.postName)
         //インスタンス保存
         fun save(): Post = create().save()
     }
@@ -25,7 +27,7 @@ class PostTest : AbstractTest() {
         assertThat(post.isSaved()).isFalse()
 
         //未保存時には値が未設定であること
-        assertThat(post.id).isEqualTo(UNSAVED_ID)
+        assertThat(post.id().value).isEqualTo(UNSAVED_ID)
         assertThat(post.version).isEqualTo(UNSAVED_ID)
         assertThat(post.createdDate).isNull()
         assertThat(post.updatedDate).isNull()
@@ -42,7 +44,7 @@ class PostTest : AbstractTest() {
         assertThat(post.isSaved()).isTrue()
 
         //保存時には値が設定されていること
-        assertThat(post.id).isNotEqualTo(UNSAVED_ID)
+        assertThat(post.id().value).isNotEqualTo(UNSAVED_ID)
         assertThat(post.version).isNotEqualTo(UNSAVED_ID)
         assertThat(post.createdDate).isNotNull()
         assertThat(post.updatedDate).isNotNull()
@@ -55,7 +57,7 @@ class PostTest : AbstractTest() {
         val post = save()
 
         //インスタンス更新
-        post.name = "updated"
+        post.name = PostName("Updated name")
         val updated = post.save()
 
         //生成日付は更新されていないこと
