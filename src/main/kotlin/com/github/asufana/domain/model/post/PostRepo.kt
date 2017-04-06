@@ -1,7 +1,7 @@
 package com.github.asufana.domain.model.post
 
-import org.springframework.data.jpa.repository.JpaRepository
+import com.github.asufana.domain.base.AbstractRepo
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PostRepo: JpaRepository<Post, Long>
+interface PostRepo: AbstractRepo<Post>
