@@ -15,6 +15,11 @@ abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = UNSAVED_ID
 
+
+    fun isSaved(): Boolean {
+        return id != UNSAVED_ID
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other === this) return true
         if (other == null) return false
@@ -25,6 +30,7 @@ abstract class BaseEntity {
         return false
     }
 
+    //ID値のみで同一かどうかを判断する
     protected fun sameIdentityAs(other: BaseEntity): Boolean {
         if (this.id == UNSAVED_ID || other.id == UNSAVED_ID) {
             return false
