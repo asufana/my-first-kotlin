@@ -11,8 +11,8 @@ class PostRepoTest : AbstractTest() {
     @Autowired
     lateinit var repo: PostRepo
 
-    @Test
     //エンティティ取得テスト
+    @Test
     fun testSave() {
 
         //DB保存件数がゼロ件であること
