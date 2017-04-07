@@ -8,11 +8,6 @@ import org.assertj.core.api.Assertions.*
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-/** Collection変換 */
-fun List<Post>.toCollection(): PostCollection {
-    return PostCollection(this)
-}
-
 class PostCollectionTest : AbstractTest() {
 
     @Autowired
