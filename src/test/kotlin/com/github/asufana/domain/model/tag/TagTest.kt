@@ -2,6 +2,7 @@ package com.github.asufana.domain.model.tag
 
 import com.github.asufana.domain.T
 import com.github.asufana.domain.base.AbstractTest
+import com.github.asufana.domain.exception.EntityException
 import com.github.asufana.domain.model.post.PostTest
 import com.github.asufana.domain.model.tag.vo.TagName
 import org.assertj.core.api.Assertions.*
@@ -26,6 +27,14 @@ class TagTest : AbstractTest() {
         //保存されること
         assertThat(tag).isNotNull()
         assertThat(tag.isSaved()).isTrue()
+    }
+
+    //ユニーク制約テスト
+    @Test(expected = EntityException::class)
+    fun testUnique() {
+        save()
+        //重複登録により例外発生すること
+        save()
     }
 
     //Postとの関連付けテスト
