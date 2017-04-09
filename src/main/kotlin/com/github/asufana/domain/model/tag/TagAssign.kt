@@ -2,6 +2,7 @@ package com.github.asufana.domain.model.tag
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
+import com.github.asufana.domain.exception.EntityException
 import com.github.asufana.domain.model.post.Post
 import com.github.asufana.domain.model.tag.repo.TagAssignRepo
 import com.github.asufana.domain.model.tag.vo.TagId
@@ -9,10 +10,12 @@ import javax.persistence.Entity
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 
 /** タグと投稿の関連付け */
 @Entity
-@Table(name="tag_assign")
+@Table(name = "tag_assign",
+        uniqueConstraints = arrayOf(UniqueConstraint(columnNames = arrayOf("post_id", "tag_id"))))
 class TagAssign private constructor() : AbstractEntity() {
 
     @ManyToOne
@@ -30,7 +33,15 @@ class TagAssign private constructor() : AbstractEntity() {
         isSatisfied()
     }
 
-    override fun isSatisfied() { }
+    override fun isSatisfied() {
+        //ユニークチェック
+        if (!isSaved()) {
+            val exists = repo().findBy(this.post, this.tag)
+            if (exists != null) {
+                throw EntityException.uniqueConstraints()
+            }
+        }
+    }
 
     fun id(): TagId {
         return TagId(this.id)
