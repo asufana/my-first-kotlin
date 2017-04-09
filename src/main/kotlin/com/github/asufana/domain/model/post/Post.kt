@@ -2,6 +2,8 @@ package com.github.asufana.domain.model.post
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
+import com.github.asufana.domain.model.comment.collection.CommentCollection
+import com.github.asufana.domain.model.comment.repo.CommentRepo
 import com.github.asufana.domain.model.post.repo.PostRepo
 import com.github.asufana.domain.model.post.vo.PostId
 import com.github.asufana.domain.model.post.vo.PostName
@@ -28,6 +30,11 @@ class Post private constructor() : AbstractEntity() {
 
     fun id(): PostId {
         return PostId(this.id)
+    }
+
+    fun comments(): CommentCollection {
+        val commentRepo = resolve(CommentRepo::class.java)
+        return commentRepo.findBy(this)
     }
 
     fun save(): Post {

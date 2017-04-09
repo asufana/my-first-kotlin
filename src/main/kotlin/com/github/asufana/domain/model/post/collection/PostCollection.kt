@@ -8,6 +8,4 @@ fun List<Post>.toCollection(): PostCollection {
     return PostCollection(this)
 }
 
-class PostCollection(list: List<Post>): AbstractCollection<Post>(list) {
-
-}
+class PostCollection(list: List<Post>): AbstractCollection<Post>(list)
