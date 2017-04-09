@@ -5,7 +5,12 @@ import com.github.asufana.domain.model.post.collection.PostCollection
 import com.github.asufana.domain.model.post.collection.toCollection
 import com.github.asufana.domain.model.post.vo.PostId
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
+
+@Repository
+private interface PostRepoBase : JpaRepository<Post, Long>
 
 @Component
 class PostRepo {
