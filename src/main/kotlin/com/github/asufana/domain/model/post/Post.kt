@@ -2,7 +2,7 @@ package com.github.asufana.domain.model.post
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
-import com.github.asufana.domain.model.post.repo.PostRepo
+import com.github.asufana.domain.model.post.repo.PostRepoBase
 import com.github.asufana.domain.model.post.vo.PostId
 import com.github.asufana.domain.model.post.vo.PostName
 import org.hibernate.internal.util.StringHelper.*
@@ -23,7 +23,7 @@ class Post private constructor() : AbstractEntity() {
     }
 
     override fun isSatisfied() {
-        assert(this.name != null && isNotEmpty(name.value))
+        assert(isNotEmpty(name.value))
     }
 
     fun id(): PostId {
@@ -35,7 +35,7 @@ class Post private constructor() : AbstractEntity() {
         return repo().saveAndFlush(this)
     }
 
-    private fun repo(): PostRepo {
-        return resolve(PostRepo::class.java)
+    private fun repo(): PostRepoBase {
+        return resolve(PostRepoBase::class.java)
     }
 }

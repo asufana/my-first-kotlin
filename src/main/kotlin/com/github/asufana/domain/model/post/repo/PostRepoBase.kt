@@ -5,4 +5,4 @@ import com.github.asufana.domain.model.post.Post
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PostRepo: AbstractRepo<Post>
+interface PostRepoBase : AbstractRepo<Post>

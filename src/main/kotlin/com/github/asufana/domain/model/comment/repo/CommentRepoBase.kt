@@ -5,5 +5,5 @@ import com.github.asufana.domain.model.comment.Comment
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CommentRepo : AbstractRepo<Comment> {
+interface CommentRepoBase : AbstractRepo<Comment> {
 }
