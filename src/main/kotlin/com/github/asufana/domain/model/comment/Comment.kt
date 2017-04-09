@@ -2,7 +2,7 @@ package com.github.asufana.domain.model.comment
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
-import com.github.asufana.domain.model.comment.repo.CommentRepoBase
+import com.github.asufana.domain.model.comment.repo.CommentRepo
 import com.github.asufana.domain.model.comment.vo.CommentId
 import com.github.asufana.domain.model.comment.vo.CommentName
 import org.hibernate.internal.util.StringHelper.*
@@ -32,10 +32,10 @@ class Comment private constructor() : AbstractEntity() {
 
     fun save(): Comment {
         isSatisfied()
-        return repo().saveAndFlush(this)
+        return repo().save(this)
     }
 
-    private fun repo(): CommentRepoBase {
-        return resolve(CommentRepoBase::class.java)
+    private fun repo(): CommentRepo {
+        return resolve(CommentRepo::class.java)
     }
 }

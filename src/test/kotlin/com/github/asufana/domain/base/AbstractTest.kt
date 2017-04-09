@@ -1,6 +1,6 @@
 package com.github.asufana.domain.base
 
-import com.github.asufana.domain.model.comment.repo.CommentRepoBase
+import com.github.asufana.domain.model.comment.repo.CommentRepo
 import com.github.asufana.domain.model.post.repo.PostRepo
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner
 abstract class AbstractTest {
 
     @Autowired lateinit var postRepo: PostRepo
-    @Autowired lateinit var commentRepo: CommentRepoBase
+    @Autowired lateinit var commentRepo: CommentRepo
 
 }
