@@ -47,7 +47,7 @@ abstract class AbstractEntity : BaseEntity() {
     @PrePersist
     protected fun prePersist() {
         this.createdDate = LocalDateTime.now()
-        this.updatedDate = this.createdDate;
+        this.updatedDate = this.createdDate
     }
 
     /** 更新時イベント */
