@@ -8,6 +8,6 @@ data class PostId(val value: Long) {
 
     /** エンティティ取得 */
     fun toEntity(): Post {
-        return resolve(PostRepo::class.java).findOne(value)
+        return resolve(PostRepo::class.java).findOne(this)
     }
 }

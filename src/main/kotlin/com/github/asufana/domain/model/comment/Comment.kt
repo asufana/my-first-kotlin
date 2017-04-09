@@ -23,7 +23,7 @@ class Comment private constructor() : AbstractEntity() {
     }
 
     override fun isSatisfied() {
-        assert(this.name != null && isNotEmpty(name.value))
+        assert(isNotEmpty(name.value))
     }
 
     fun id(): CommentId {
@@ -32,7 +32,7 @@ class Comment private constructor() : AbstractEntity() {
 
     fun save(): Comment {
         isSatisfied()
-        return repo().saveAndFlush(this)
+        return repo().save(this)
     }
 
     private fun repo(): CommentRepo {

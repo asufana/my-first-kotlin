@@ -15,7 +15,7 @@ class PostCollectionTest : AbstractTest() {
         Post(PostName("02")).save()
         Post(PostName("03")).save()
 
-        val list = postRepo.findAll().toCollection()
+        val list = postRepo.findAll()
         assertThat(list is PostCollection).isTrue()
         assertThat(list.count()).isEqualTo(3)
     }

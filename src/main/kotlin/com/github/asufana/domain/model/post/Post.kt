@@ -23,7 +23,7 @@ class Post private constructor() : AbstractEntity() {
     }
 
     override fun isSatisfied() {
-        assert(this.name != null && isNotEmpty(name.value))
+        assert(isNotEmpty(name.value))
     }
 
     fun id(): PostId {
@@ -32,7 +32,7 @@ class Post private constructor() : AbstractEntity() {
 
     fun save(): Post {
         isSatisfied()
-        return repo().saveAndFlush(this)
+        return repo().save(this)
     }
 
     private fun repo(): PostRepo {
