@@ -47,12 +47,22 @@ class TagTest : AbstractTest() {
         //Postと関連付けられていること
         assertThat(savedPost.tags().count()).isEqualTo(2)
 
+        //TagからPostが関連付けられていること
+        assertThat(tag01.posts().count()).isEqualTo(1)
+        assertThat(tag02.posts().count()).isEqualTo(1)
+
         //---------------------------------------
 
         //Postとの関連付け解除
-        savedPost.unAssign(tag01).save()
+        savedPost.unAssign(tag02)
 
         //Postと関連付けが解除されていること
         assertThat(savedPost.tags().count()).isEqualTo(1)
+
+        //TagからPostが関連付けられていること
+        assertThat(tag01.posts().count()).isEqualTo(1)
+
+        //TagからPostが関連付けが解除されていること
+        assertThat(tag02.posts().count()).isEqualTo(0)
     }
 }

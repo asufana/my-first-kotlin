@@ -2,6 +2,7 @@ package com.github.asufana.domain.model.tag.repo
 
 import com.github.asufana.domain.base.repo.AbstractRepo
 import com.github.asufana.domain.model.post.Post
+import com.github.asufana.domain.model.post.collection.PostCollection
 import com.github.asufana.domain.model.tag.Tag
 import com.github.asufana.domain.model.tag.TagAssign
 import com.github.asufana.domain.model.tag.collection.TagCollection
@@ -45,7 +46,7 @@ class TagAssignRepo : AbstractRepo() {
         tagAssign?.delete()
     }
 
-    /** タグ一覧の取得 */
+    /** 関連付けられたタグ一覧の取得 */
     internal fun findBy(post: Post): TagCollection {
         val tagAssignList = em
                 .createQuery("from TagAssign where post = :post", TagAssign::class.java)
@@ -53,6 +54,16 @@ class TagAssignRepo : AbstractRepo() {
                 .resultList
                 .toCollection()
         return tagAssignList.toTagCollection()
+    }
+
+    /** 関連付けられた投稿一覧の取得 */
+    internal fun findBy(tag: Tag): PostCollection {
+        val tagAssignList = em
+                .createQuery("from TagAssign where tag = :tag", TagAssign::class.java)
+                .setParameter("tag", tag)
+                .resultList
+                .toCollection()
+        return tagAssignList.toPostCollection()
     }
 
     fun save(tagAssign: TagAssign): TagAssign {

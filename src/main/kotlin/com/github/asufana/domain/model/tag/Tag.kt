@@ -2,6 +2,8 @@ package com.github.asufana.domain.model.tag
 
 import com.github.asufana.domain.base.entity.AbstractEntity
 import com.github.asufana.domain.base.util.resolve
+import com.github.asufana.domain.model.post.collection.PostCollection
+import com.github.asufana.domain.model.tag.repo.TagAssignRepo
 import com.github.asufana.domain.model.tag.repo.TagRepo
 import com.github.asufana.domain.model.tag.vo.TagId
 import com.github.asufana.domain.model.tag.vo.TagName
@@ -28,6 +30,12 @@ class Tag private constructor() : AbstractEntity() {
 
     fun id(): TagId {
         return TagId(this.id)
+    }
+
+    /** 関連付けられた投稿一覧 */
+    fun posts(): PostCollection {
+        val tagAssignRepo = resolve(TagAssignRepo::class.java)
+        return tagAssignRepo.findBy(this)
     }
 
     fun save(): Tag {

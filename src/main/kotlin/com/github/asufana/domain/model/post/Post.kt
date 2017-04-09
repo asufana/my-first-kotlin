@@ -35,7 +35,7 @@ class Post private constructor() : AbstractEntity() {
         return PostId(this.id)
     }
 
-    /** タグ付け */
+    /** タグ付け登録 */
     fun assign(tag: Tag): Post {
         val tagAssignRepo = resolve(TagAssignRepo::class.java)
         tagAssignRepo.assign(this, tag)
