@@ -6,3 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PostRepoBase : AbstractRepo<Post>
+
+

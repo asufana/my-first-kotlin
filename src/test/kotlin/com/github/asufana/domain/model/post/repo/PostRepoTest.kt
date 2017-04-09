@@ -15,7 +15,7 @@ class PostRepoTest : AbstractTest() {
         assertThat(postRepo.count()).isEqualTo(0)
 
         //エンティティ保存
-        postRepo.saveAndFlush(PostTest.create())
+        postRepo.save(PostTest.create())
 
         //DB保存件数が１件であること
         assertThat(postRepo.count()).isEqualTo(1)
