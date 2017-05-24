@@ -8,7 +8,7 @@
 
 ## ValueObject
 
-エンティティ上のフィールドは、Stringなどのプリミティブ型をラッピングした業務特化型のValueObjectとする
+##### モデル構成の最小粒度をValueObjectとする
 
 ```kotlin
 import javax.persistence.Column
@@ -22,6 +22,8 @@ data class PostName(
 )
 ```
 
+エンティティ上のフィールドは、Stringなどのプリミティブ型をラッピングした業務特化型のValueObjectとする
+
 - データクラスで実装（ミュータブル・値で同値判断）
 - １ValueObjectに付き、１つの値を保持する
 - DBスキーマとして @Embeddable、@Column を指定
@@ -30,7 +32,7 @@ data class PostName(
 
 
 
-業務特化型として、保持する値に関連した振る舞いは、できるだけValueObjectに持たせるようにする
+##### ValueObjectに振る舞いを持たせる
 
 ```kotlin
 import com.github.asufana.domain.base.util.resolve
@@ -45,6 +47,8 @@ data class PostId(val value: Long) {
     }
 }
 ```
+
+業務特化型として、保持する値に関連した振る舞いは、できるだけValueObjectに持たせるようにする
 
 - 投稿IDは投稿エンティティを一意に指し示すため、投稿IDから投稿エンティティを取得する振る舞いを持たせることができる
 -  `val post = PostId(1L).toEntity()` のように利用できる
