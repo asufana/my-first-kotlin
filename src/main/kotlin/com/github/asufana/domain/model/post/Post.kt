@@ -1,7 +1,6 @@
 package com.github.asufana.domain.model.post
 
 import com.github.asufana.domain.base.entity.AbstractEntity
-import com.github.asufana.domain.base.util.resolve
 import com.github.asufana.domain.model.comment.collection.CommentCollection
 import com.github.asufana.domain.model.comment.repo.CommentRepo
 import com.github.asufana.domain.model.post.repo.PostRepo
@@ -37,36 +36,28 @@ class Post private constructor() : AbstractEntity() {
 
     /** タグ付け登録 */
     fun assign(tag: Tag): Post {
-        val tagAssignRepo = resolve(TagAssignRepo::class.java)
-        tagAssignRepo.assign(this, tag)
+        TagAssignRepo.assign(this, tag)
         return this
     }
 
     /** タグ付け解除 */
     fun unAssign(tag: Tag): Post {
-        val tagAssignRepo = resolve(TagAssignRepo::class.java)
-        tagAssignRepo.unAssign(this, tag)
+        TagAssignRepo.unAssign(this, tag)
         return this
     }
 
     /** 関連付けられたコメント一覧 */
     fun comments(): CommentCollection {
-        val commentRepo = resolve(CommentRepo::class.java)
-        return commentRepo.findBy(this)
+        return CommentRepo.findBy(this)
     }
 
     /** 関連付けられたタグ一覧 */
     fun tags(): TagCollection {
-        val tagAssignRepo = resolve(TagAssignRepo::class.java)
-        return tagAssignRepo.findBy(this)
+        return TagAssignRepo.findBy(this)
     }
 
     fun save(): Post {
         isSatisfied()
-        return repo().save(this)
-    }
-
-    private fun repo(): PostRepo {
-        return resolve(PostRepo::class.java)
+        return PostRepo.save(this)
     }
 }

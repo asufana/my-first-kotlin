@@ -1,7 +1,6 @@
 package com.github.asufana.domain.model.tag
 
 import com.github.asufana.domain.base.entity.AbstractEntity
-import com.github.asufana.domain.base.util.resolve
 import com.github.asufana.domain.exception.EntityException
 import com.github.asufana.domain.model.post.collection.PostCollection
 import com.github.asufana.domain.model.tag.repo.TagAssignRepo
@@ -32,7 +31,7 @@ class Tag private constructor() : AbstractEntity() {
 
         //ユニークチェック
         if (!isSaved()) {
-            val exists = repo().findBy(name)
+            val exists = TagRepo.findBy(name)
             if (exists != null) {
                 throw EntityException.uniqueConstraints()
             }
@@ -45,16 +44,11 @@ class Tag private constructor() : AbstractEntity() {
 
     /** 関連付けられた投稿一覧 */
     fun posts(): PostCollection {
-        val tagAssignRepo = resolve(TagAssignRepo::class.java)
-        return tagAssignRepo.findBy(this)
+        return TagAssignRepo.findBy(this)
     }
 
     fun save(): Tag {
         isSatisfied()
-        return repo().save(this)
-    }
-
-    private fun repo(): TagRepo {
-        return resolve(TagRepo::class.java)
+        return TagRepo.save(this)
     }
 }

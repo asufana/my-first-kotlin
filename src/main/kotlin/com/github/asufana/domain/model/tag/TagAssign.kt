@@ -36,7 +36,7 @@ class TagAssign private constructor() : AbstractEntity() {
     override fun isSatisfied() {
         //ユニークチェック
         if (!isSaved()) {
-            val exists = repo().findBy(this.post, this.tag)
+            val exists = TagAssignRepo.findBy(this.post, this.tag)
             if (exists != null) {
                 throw EntityException.uniqueConstraints()
             }
@@ -49,14 +49,10 @@ class TagAssign private constructor() : AbstractEntity() {
 
     fun save(): TagAssign {
         isSatisfied()
-        return repo().save(this)
+        return TagAssignRepo.save(this)
     }
 
     fun delete() {
-        repo().delete(this)
-    }
-
-    private fun repo(): TagAssignRepo {
-        return resolve(TagAssignRepo::class.java)
+        TagAssignRepo.delete(this)
     }
 }

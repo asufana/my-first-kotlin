@@ -1,7 +1,6 @@
 package com.github.asufana.domain.model.comment
 
 import com.github.asufana.domain.base.entity.AbstractEntity
-import com.github.asufana.domain.base.util.resolve
 import com.github.asufana.domain.model.comment.repo.CommentRepo
 import com.github.asufana.domain.model.comment.vo.CommentId
 import com.github.asufana.domain.model.comment.vo.CommentName
@@ -40,10 +39,6 @@ class Comment private constructor() : AbstractEntity() {
 
     fun save(): Comment {
         isSatisfied()
-        return repo().save(this)
-    }
-
-    private fun repo(): CommentRepo {
-        return resolve(CommentRepo::class.java)
+        return CommentRepo.save(this)
     }
 }

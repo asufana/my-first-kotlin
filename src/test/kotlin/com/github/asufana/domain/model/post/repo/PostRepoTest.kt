@@ -12,12 +12,12 @@ class PostRepoTest : AbstractTest() {
     fun testSave() {
 
         //DB保存件数がゼロ件であること
-        assertThat(postRepo.count()).isEqualTo(0)
+        assertThat(PostRepo.count()).isEqualTo(0)
 
         //エンティティ保存
-        postRepo.save(PostTest.create())
+        PostRepo.save(PostTest.create())
 
         //DB保存件数が１件であること
-        assertThat(postRepo.count()).isEqualTo(1)
+        assertThat(PostRepo.count()).isEqualTo(1)
     }
 }
