@@ -1,8 +1,6 @@
 # My First Kotlin [![CircleCI](https://circleci.com/gh/asufana/my-first-kotlin/tree/master.svg?style=svg)](https://circleci.com/gh/asufana/my-first-kotlin/tree/master)
 
-軽量DDDのプラクティスをベースに実装する
-
-
+軽量DDDのプラクティスをベースに、Kotlin + Spring boot でのWebアプリケーション実装を検証する
 
 
 
@@ -119,7 +117,7 @@ class PostRepo {
 自前リポジトリを用意することで任意の型で返却できるようにする
 
 - JpaRepository インターフェースを利用したリポジトリ実装の場合、ジェネリクスで指定したエンティティかエンティティのリストでしか返却できない
-- エンティティのリストも（VOと同様に）ドメイン特化型で返却したいため、自前のリポジトリを用意する
+- エンティティのリストも（VOと同様に）ドメイン特化型で返却したいため、自前のリポジトリを用意し、任意の型返却をできるようにする
 - ただし基底処理として JpaRepository の機能を使いたいので、ラッピングする形で実装
 - JpaRepository のインスタンスは、resolve ユーティリティを用いて DI コンテナから取得する
 
