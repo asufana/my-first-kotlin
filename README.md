@@ -107,6 +107,7 @@ class PostRepo {
       	//DIコンテナから基底クラスのインスタンスを取得
         private fun repo(): PostRepoBase = resolve(PostRepoBase::class.java)
 
+      	//投稿リストをドメイン特化型の投稿コレクションにラッピングして返却する
         fun findAll(): PostCollection {
             val list = repo().findAll()
             return list.toCollection()
