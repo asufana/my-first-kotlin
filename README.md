@@ -20,7 +20,7 @@ data class PostName(
 )
 ```
 
-エンティティ上のフィールドは、Stringなどのプリミティブ型をラッピングした業務特化型のValueObjectとする
+エンティティ上のフィールドは、Stringなどのプリミティブ型をラッピングしたドメイン特化型のValueObjectとする
 
 - データクラスで実装（ミュータブル・値で同値判断）
 - １ValueObjectに付き、１つの値を保持する
@@ -46,7 +46,7 @@ data class PostId(val value: Long) {
 }
 ```
 
-業務特化型として、保持する値に関連した振る舞いは、できるだけValueObjectに持たせるようにする
+ドメイン特化型として、保持する値に関連した振る舞いは、できるだけValueObjectに持たせるようにする
 
 - 投稿IDは投稿エンティティを一意に指し示すため、投稿IDから投稿エンティティを取得する振る舞いを持たせることができる
 - `val post = PostId(1L).toEntity()` のように利用できる
@@ -107,7 +107,7 @@ class PostRepo {
       	//DIコンテナから基底クラスのインスタンスを取得
         private fun repo(): PostRepoBase = resolve(PostRepoBase::class.java)
 
-      	//投稿リストをドメイン特化型の投稿コレクションにラッピングして返却する
+      	//投稿一覧をドメイン特化型の投稿コレクションクラスにラッピングして返却する
         fun findAll(): PostCollection {
             val list = repo().findAll()
             return list.toCollection()
@@ -117,13 +117,71 @@ class PostRepo {
 
 自前リポジトリを用意することで任意の型で返却できるようにする
 
-- JpaRepository インターフェースを利用したリポジトリ実装の場合、ジェネリクスで指定したエンティティかエンティティのリストでしか返却できない
+- JpaRepository インターフェースを利用したリポジトリ実装の場合、ジェネリクスで指定したエンティティの型でしか返却できない
 - エンティティのリストも（VOと同様に）ドメイン特化型で返却したいため、自前のリポジトリを用意し、任意の型返却をできるようにする
 - ただし基底処理として JpaRepository の機能を使いたいので、ラッピングする形で実装
 - JpaRepository のインスタンスは、resolve ユーティリティを用いて DI コンテナから取得する
 
 
 
+
+## Entity
+
+```kotlin
+import com.github.asufana.domain.base.entity.AbstractEntity
+import com.github.asufana.domain.model.comment.collection.CommentCollection
+import com.github.asufana.domain.model.comment.repo.CommentRepo
+import com.github.asufana.domain.model.post.repo.PostRepo
+import com.github.asufana.domain.model.post.vo.PostId
+import com.github.asufana.domain.model.post.vo.PostName
+import com.github.asufana.domain.model.tag.Tag
+import com.github.asufana.domain.model.tag.collection.TagCollection
+import com.github.asufana.domain.model.tag.repo.TagAssignRepo
+import org.hibernate.internal.util.StringHelper.*
+import javax.persistence.Entity
+import javax.persistence.Table
+
+/** 投稿 */
+@Entity
+@Table(name = "posts")
+class Post private constructor() : AbstractEntity() {
+
+    lateinit var name: PostName
+
+    constructor(name: PostName) : this() {
+        this.name = name
+
+        isSatisfied()
+    }
+
+  　//保存条件
+    override fun isSatisfied() {
+        assert(isNotEmpty(name.value))
+    }
+
+    fun id(): PostId {
+        return PostId(this.id)
+    }
+
+    //関連付けられたコメント一覧
+    fun comments(): CommentCollection {
+        return CommentRepo.findBy(this)
+    }
+
+    //保存
+    fun save(): Post {
+        isSatisfied()
+        return PostRepo.save(this)
+    }
+}
+```
+
+- フィールドはVOで構成
+- コンストラクタは、セカンダリコンストラクタにドメイン要件に基づいた引数を整備する
+  - プライマリコンストラクタはHibernate要件のため引数なしをプライベートで用意
+- isSatistisfied() でコンストラクタとsave時に、当該エンティティの保存条件を満たすか確認する
+- フィールドの保存条件はVO自体で実施する
+- 保存や関連取得の処理はリポジトリに移譲する
 
 
 
