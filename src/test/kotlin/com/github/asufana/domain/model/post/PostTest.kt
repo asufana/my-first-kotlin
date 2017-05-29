@@ -11,16 +11,21 @@ class PostTest : AbstractTest() {
 
     companion object {
         //インスタンス生成
-        fun create(): Post = Post(T.postName)
+        fun create01(): Post = Post(T.postName01)
+        fun create02(): Post = Post(T.postName02)
+        fun create03(): Post = Post(T.postName03)
+
         //インスタンス保存
-        fun save(): Post = create().save()
+        fun save01(): Post = create01().save()
+        fun save02(): Post = create02().save()
+        fun save03(): Post = create03().save()
     }
 
     //インスタンス生成テスト
     @Test
     fun testCreate() {
         //インスタンス生成
-        val post = create()
+        val post = create01()
 
         //生成されること
         assertThat(post).isNotNull()
@@ -37,7 +42,7 @@ class PostTest : AbstractTest() {
     @Test
     fun testSave() {
         //インスタンス保存
-        val post = save()
+        val post = save01()
 
         //保存されること
         assertThat(post).isNotNull()
@@ -54,7 +59,7 @@ class PostTest : AbstractTest() {
     @Test
     fun testUpdate() {
         //インスタンス保存
-        val post = save()
+        val post = save01()
 
         //インスタンス更新
         post.name = PostName("Updated name")

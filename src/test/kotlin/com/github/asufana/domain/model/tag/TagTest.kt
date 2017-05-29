@@ -4,7 +4,6 @@ import com.github.asufana.domain.T
 import com.github.asufana.domain.base.AbstractTest
 import com.github.asufana.domain.exception.EntityException
 import com.github.asufana.domain.model.post.PostTest
-import com.github.asufana.domain.model.tag.vo.TagName
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 
@@ -12,17 +11,21 @@ class TagTest : AbstractTest() {
 
     companion object {
         //インスタンス生成
-        fun create(): Tag = Tag(T.tagName)
+        fun create01(): Tag = Tag(T.tagName01)
+        fun create02(): Tag = Tag(T.tagName02)
+        fun create03(): Tag = Tag(T.tagName03)
 
         //インスタンス保存
-        fun save(): Tag = create().save()
+        fun save01(): Tag = create01().save()
+        fun save02(): Tag = create02().save()
+        fun save03(): Tag = create03().save()
     }
 
     //インスタンス保存テスト
     @Test
     fun testSave() {
         //インスタンス保存
-        val tag = save()
+        val tag = save01()
 
         //保存されること
         assertThat(tag).isNotNull()
@@ -32,18 +35,18 @@ class TagTest : AbstractTest() {
     //ユニーク制約テスト
     @Test(expected = EntityException::class)
     fun testUnique() {
-        save()
+        save01()
         //重複登録により例外発生すること
-        save()
+        save01()
     }
 
     //Postとの関連付けテスト
     @Test
     fun testRelatedPost() {
         //インスタンス保存
-        val tag01 = Tag(TagName("fun")).save()
-        val tag02 = Tag(TagName("etc")).save()
-        val post = PostTest.save()
+        val tag01 = TagTest.save01()
+        val tag02 = TagTest.save02()
+        val post = PostTest.save01()
 
         //Postと関連付けられていないこと
         assertThat(post.tags().count()).isEqualTo(0)

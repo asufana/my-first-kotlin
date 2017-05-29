@@ -7,4 +7,8 @@ abstract class AbstractCollection<out T>(val list: List<T>) {
         return list.count()
     }
 
+    fun get(index: Int): T {
+        return list[index]
+    }
+
 }

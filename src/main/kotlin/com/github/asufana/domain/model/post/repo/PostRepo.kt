@@ -20,6 +20,10 @@ class PostRepo {
             return repo().count()
         }
 
+        fun save(post: Post): Post {
+            return repo().saveAndFlush(post)
+        }
+
         fun findAll(): PostCollection {
             val list = repo().findAll()
             return list.toCollection()
@@ -27,10 +31,6 @@ class PostRepo {
 
         fun findOne(id: PostId): Post {
             return repo().findOne(id.value)
-        }
-
-        fun save(post: Post): Post {
-            return repo().saveAndFlush(post)
         }
     }
 }
