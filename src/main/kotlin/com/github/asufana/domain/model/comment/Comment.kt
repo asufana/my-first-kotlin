@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 /** 投稿コメント */
 @Entity
-@Table(name = "posts")
+@Table(name = "comments")
 class Comment private constructor() : AbstractEntity() {
 
     @ManyToOne

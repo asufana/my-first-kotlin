@@ -11,9 +11,15 @@ fun List<Post>.toCollection(): PostCollection {
 
 class PostCollection(list: List<Post>): AbstractCollection<Post>(list) {
 
-    /** タグに変換 */
+    /** フィルタ */
+    fun hasComments(): PostCollection {
+        val newList = list.filter { it.comments().count() > 0 }.toList();
+        return PostCollection(newList)
+    }
+
+    /** タグ一覧に変換 */
     fun toTags(): TagCollection {
-        var tags = list.flatMap { it.tags().list }
+        val tags = list.flatMap { it.tags().list }
         return TagCollection(tags)
     }
 }
