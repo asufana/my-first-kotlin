@@ -4,6 +4,7 @@ import com.github.asufana.domain.base.AbstractTest
 import com.github.asufana.domain.model.comment.CommentTest
 import com.github.asufana.domain.model.post.PostTest
 import com.github.asufana.domain.model.post.repo.PostRepo
+import com.github.asufana.domain.model.tag.collection.TagCollection
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 
@@ -15,18 +16,20 @@ class PostCollectionTest : AbstractTest() {
         PostTest.save02()
         PostTest.save03()
 
-        val list = PostRepo.findAll()
-        assertThat(list is PostCollection).isTrue()
-        assertThat(list.count()).isEqualTo(3)
+        val posts = PostRepo.findAll()
+        assertThat(posts is PostCollection).isTrue()
+        assertThat(posts.count()).isEqualTo(3)
     }
 
     @Test
     fun testHasComments() {
+        PostTest.save01()
         CommentTest.save01()
 
-        val list = PostRepo.findAll()
-        assertThat(list is PostCollection).isTrue()
-        assertThat(list.count()).isEqualTo(1)
+        val posts = PostRepo.findAll()
+        val tags = posts.hasComments().sort().toTags()
+        assertThat(tags is TagCollection).isTrue()
+        assertThat(tags.count()).isEqualTo(0)
     }
 
 

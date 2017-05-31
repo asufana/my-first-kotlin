@@ -9,12 +9,16 @@ fun List<Post>.toCollection(): PostCollection {
     return PostCollection(this)
 }
 
-class PostCollection(list: List<Post>): AbstractCollection<Post>(list) {
+class PostCollection(list: List<Post>) : AbstractCollection<Post>(list) {
 
-    /** フィルタ */
+    /** コメントある投稿のみ抽出 */
     fun hasComments(): PostCollection {
-        val newList = list.filter { it.comments().count() > 0 }.toList();
-        return PostCollection(newList)
+        return PostCollection(filter { !it.comments().isEmpty() })
+    }
+
+    /** ソート */
+    fun sort(): PostCollection {
+        return PostCollection(sortList())
     }
 
     /** タグ一覧に変換 */
