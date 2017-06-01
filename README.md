@@ -125,7 +125,80 @@ class PostRepo {
 
 
 
+## Collection
+
+#### プリミティブなリストをラッピングし、ドメイン特化リストとする
+
+```kotlin
+package com.github.asufana.domain.model.post.collection
+
+import com.github.asufana.domain.base.collection.AbstractCollection
+import com.github.asufana.domain.model.post.Post
+import com.github.asufana.domain.model.tag.collection.TagCollection
+import com.github.asufana.domain.model.tag.collection.toCollection
+
+/** Collection変換 */
+fun List<Post>.toCollection(): PostCollection {
+    return PostCollection(this)
+}
+
+class PostCollection(list: List<Post>) : AbstractCollection<PostCollection, Post>(list) {
+
+    /** コメントある投稿のみ抽出 */
+    fun hasComments(): PostCollection {
+        return filter { !it.comments().isEmpty() }
+    }
+
+    /** タグ一覧に変換 */
+    fun toTags(): TagCollection {
+        val tags = list.flatMap { it.tags().list }
+        return tags.toCollection()
+    }
+}
+```
+
+ValueObjectと同様、Kotlinプリミティブなリストクラスはドメインのファーストシチズンとして利用しない
+
+- プリミティブなリストクラスを操作するということは、他のクラスがリストの情報を取得して何かするということであり、これではデータと振る舞いが生き別れてしまう
+- データと振る舞いをカプセル化すること、業務に特化したメソッドのみを公開するために、リストクラスもラッピングした上で利用する
+
+#### 閉じた操作で構成する
+
+```kotlin
+    @Test
+    fun testHasCommentAndTag() {
+        //コメントとタグを持つ投稿を登録する
+        val comment = CommentTest.save01()
+        val tag = TagTest.save01()
+        comment.post.assign(tag).save()
+
+        //投稿一覧の取得
+        val posts = PostRepo.findAll()
+      
+        //投稿一覧の操作
+        val tags = posts
+      		.hasComments()
+      		.hasTags()
+      		.toTags()
+      		.sort()
+      
+        //タグ一覧に変換され、要素数は１であること
+        assertThat(tags is TagCollection).isTrue()
+        assertThat(tags.count()).isEqualTo(1)
+    }
+```
+
+- メソッド戻り値を常に自身のクラスとすることで、コレクション内で概念が閉じた構成とする
+- こうすることで、コレクション上のどのようなメソッドを呼び出そうとコレクション内で処理が閉じているため、小さなメソッドを組み合わせて任意の処理を構成することが容易に、かつ安全に実現できる
+- たとえば上の例では「コメントがあり、かつタグ付けされている投稿」を抽出しているが、 `posts.hasCommentsAndTags()` といった要件に対して専用のメソッドは用意する必要はなく、
+- `posts.hasComments().hasTags()` という閉じた操作の組み合わせで実現している
+- また `toTags()` メソッドでタグ一覧に変換することで、タグ一覧コレクションでも閉じた操作で任意の処理を組み合わせて処理することができる
+
+
+
 ## Entity
+
+#### ValueObject, Repository, Collectionなどを取りまとめる
 
 ```kotlin
 import com.github.asufana.domain.base.entity.AbstractEntity
@@ -182,6 +255,10 @@ class Post private constructor() : AbstractEntity() {
 - isSatistisfied() でコンストラクタとsave時に、当該エンティティの保存条件を満たすか確認する
 - フィールドの保存条件はVO自体で実施する
 - 保存や関連取得の処理はリポジトリに移譲する
+
+
+
+
 
 
 
