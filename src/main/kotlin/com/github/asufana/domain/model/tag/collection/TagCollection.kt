@@ -8,4 +8,5 @@ fun List<Tag>.toCollection(): TagCollection {
     return TagCollection(this)
 }
 
-class TagCollection(list: List<Tag>) : AbstractCollection<Tag>(list)
+class TagCollection(list: List<Tag>) : AbstractCollection<TagCollection, Tag>
+                                       (list)

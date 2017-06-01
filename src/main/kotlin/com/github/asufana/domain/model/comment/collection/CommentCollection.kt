@@ -8,4 +8,5 @@ fun List<Comment>.toCollection(): CommentCollection {
     return CommentCollection(this)
 }
 
-class CommentCollection(list: List<Comment>): AbstractCollection<Comment>(list)
+class CommentCollection(list: List<Comment>):
+        AbstractCollection<CommentCollection, Comment>(list)

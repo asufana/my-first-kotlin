@@ -1,9 +1,12 @@
 package com.github.asufana.domain.base.collection
 
 import com.github.asufana.domain.base.entity.AbstractEntity
+import java.lang.reflect.ParameterizedType
 
 
-abstract class AbstractCollection<out T: AbstractEntity>(val list: List<T>) {
+
+
+abstract class AbstractCollection<out S: AbstractCollection<S, T>, out T: AbstractEntity>(val list: List<T>): Iterable<T> {
 
     fun isEmpty(): Boolean {
         return list.isEmpty()
@@ -13,20 +16,45 @@ abstract class AbstractCollection<out T: AbstractEntity>(val list: List<T>) {
         return list.count()
     }
 
-    fun get(index: Int): T {
-        return list[index]
+    fun get(index: Int): T? {
+        return if (count() > index) {
+            return list[index]
+        }
+        else {
+            return null
+        }
     }
 
-    protected fun filter(predicate: (T) -> Boolean): List<T> {
-        return list.filter(predicate).toList()
+    fun sort(): S {
+        val newList = list.sortedBy { it.createdDate }
+        return toCollection(newList)
     }
 
-    protected fun sortList(): List<T> {
-        return list.sortedBy { it.createdDate }
+    fun reverse(): S {
+        val newList = list.reversed()
+        return toCollection(newList)
     }
 
-    protected fun reverse(): List<T> {
-        return list.reversed()
+    protected fun filter(predicate: (T) -> Boolean): S {
+        val newList = list.filter(predicate).toList()
+        return toCollection(newList)
     }
 
+    protected fun <T> toCollection(list: List<T>): S {
+        val klass = this.javaClass
+        val type = klass.genericSuperclass as ParameterizedType
+        val arg = type.actualTypeArguments[0]
+        val collectionClass = if (arg is ParameterizedType) {
+            arg.rawType as Class<T>
+        }
+        else {
+            arg as Class<T>
+        }
+        val constructor = collectionClass.getConstructor(List::class.java)
+        return constructor.newInstance(list) as S
+    }
+
+    override fun iterator(): Iterator<T> {
+        return list.iterator()
+    }
 }
