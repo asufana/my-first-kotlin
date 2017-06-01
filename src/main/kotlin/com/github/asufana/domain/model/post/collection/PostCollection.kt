@@ -12,9 +12,14 @@ fun List<Post>.toCollection(): PostCollection {
 
 class PostCollection(list: List<Post>) : AbstractCollection<PostCollection, Post>(list) {
 
-    /** コメントある投稿のみ抽出 */
+    /** コメントのある投稿のみ抽出 */
     fun hasComments(): PostCollection {
         return filter { !it.comments().isEmpty() }
+    }
+
+    /** タグのある投稿のみ抽出 */
+    fun hasTags(): PostCollection {
+        return filter { !it.tags().isEmpty() }
     }
 
     /** タグ一覧に変換 */

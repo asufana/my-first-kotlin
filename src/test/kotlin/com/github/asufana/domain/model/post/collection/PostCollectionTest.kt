@@ -29,7 +29,7 @@ class PostCollectionTest : AbstractTest() {
         comment.post.assign(tag).save()
 
         val posts = PostRepo.findAll()
-        val tags = posts.hasComments().toTags().sort()
+        val tags = posts.hasComments().hasTags().toTags().sort()
         assertThat(tags is TagCollection).isTrue()
         assertThat(tags.count()).isEqualTo(1)
     }
