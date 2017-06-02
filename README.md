@@ -4,6 +4,12 @@
 
 
 
+## アプリ概要
+
+![](https://dl.dropboxusercontent.com/u/425790/images/SS2017-06-02%2022.48.00.png)
+
+
+
 ## ValueObject
 
 #### モデル構成の最小粒度をValueObjectとする
